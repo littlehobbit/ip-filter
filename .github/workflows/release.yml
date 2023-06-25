@@ -23,7 +23,7 @@ jobs:
       with:
         tag_prefix: ""
         bump_each_commit: true
-        version_format: "${major}.${minor}.${increment}"
+        version_format: "${major}.${minor}.${patch}"
 
     - name: Configure CMake
       env:  
@@ -46,9 +46,11 @@ jobs:
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COMMIT_DISTANCE: ${{steps.get_version.outputs.increment}}
+        COMMIT_HASH: ${{steps.get_version.outputs.current_commit}}
       with:
         tag_name: ${{ steps.get_version.outputs.version }}
-        release_name: Release ${{steps.get_version.outputs.version}}-${{steps.get_version.outputs.version_tag}}
+        release_name: Release ${{steps.get_version.outputs.version}}-${{env.COMMIT_DISTANCE}}-${{env.COMMIT_HASH}}
         draft: false
         prerelease: false
 
