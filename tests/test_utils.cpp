@@ -9,7 +9,6 @@ TEST(UtilsTest, ReadAddressList_NonEmpty) {
       "113.162.145.156\t111\t0\n157.39.22.224\t5\t6\n79.180.73.190\t2\t1"};
 
   auto result = utils::read_addresses(input);
-
   ASSERT_EQ(result, (ip_filter::address_list{
                         {113, 162, 145, 156}, //
                         {157, 39, 22, 224},   //
