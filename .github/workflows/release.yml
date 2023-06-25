@@ -30,7 +30,6 @@ jobs:
     - name: Configure CMake
       env:  
         VERSION: ${{steps.get_version.outputs.version}}
-        DUMMY: dummy
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DBUILD_TESTS=ON -DBUILD_PACKAGE=ON -DVERSION=${{env.VERSION}}
 
     - name: Build
