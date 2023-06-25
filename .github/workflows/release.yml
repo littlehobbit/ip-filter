@@ -47,10 +47,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         COMMIT_DISTANCE: ${{steps.get_version.outputs.increment}}
-        COMMIT_HASH: ${{steps.get_version.outputs.current_commit}}
       with:
-        tag_name: ${{ steps.get_version.outputs.version }}
-        release_name: Release ${{steps.get_version.outputs.version}}-${{env.COMMIT_DISTANCE}}-${{env.COMMIT_HASH}}
+        tag_name: ${{ steps.get_version.outputs.version }}-${{env.COMMIT_DISTANCE}}
+        release_name: Release ${{steps.get_version.outputs.version}}-${{env.COMMIT_DISTANCE}}
         draft: false
         prerelease: false
 
