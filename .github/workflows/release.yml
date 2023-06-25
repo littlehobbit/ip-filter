@@ -22,7 +22,7 @@ jobs:
       uses: PaulHatch/semantic-version@v5.0.3
       with:
         tag_prefix: ""
-        bump_each_commit: true
+        bump_each_commit: false
         version_format: "${major}.${minor}.${patch}"
 
     - name: Configure CMake
