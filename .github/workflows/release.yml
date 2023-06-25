@@ -24,6 +24,7 @@ jobs:
         tag_prefix: ""
         bump_each_commit: false
         version_format: "${major}.${minor}.${patch}"
+        enable_prerelease_mode: true
 
     - name: Configure CMake
       env:  
