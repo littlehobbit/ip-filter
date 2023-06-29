@@ -21,8 +21,9 @@ inline auto read_addresses(std::istream &in) -> ip_filter::address_list {
   while (std::getline(in, line)) {
     std::istringstream line_stream{line};
 
-    std::string address, _;
-    line_stream >> address >> _ >> _;
+    std::string address{};
+    std::string dummy{};
+    line_stream >> address >> dummy >> dummy;
 
     res.push_back(ip_filter::address::from_string(address));
   }
@@ -39,6 +40,6 @@ inline auto transform_print(std::ostream &out, const Container &container,
       transformer);
 }
 
-} // namespace utils
+}  // namespace utils
 
-#endif // __UTILS_H_SUGR41SK6JIZ__
+#endif  // __UTILS_H_SUGR41SK6JIZ__

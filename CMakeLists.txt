@@ -18,6 +18,8 @@ target_compile_options(
   ${PROJECT_NAME}_lib INTERFACE -Wall -Wpedantic -Werror
 )
 
+target_compile_definitions(${PROJECT_NAME}_lib INTERFACE ASIO_STANDALONE)
+
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wpedantic -Werror)

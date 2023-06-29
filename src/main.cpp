@@ -14,7 +14,7 @@ int main(int /*argc*/, char * /*argv*/[]) {
 
   {
     auto with_front_1 = ip_filter::filter_if(
-        addresses, [](const auto &addr) { return addr[0] == 1; });
+        addresses, [](const auto &addr) { return addr.to_bytes()[0] == 1; });
     utils::transform_print(std::cout, with_front_1,
                            ip_filter::address::to_string);
   }
@@ -22,8 +22,8 @@ int main(int /*argc*/, char * /*argv*/[]) {
   {
     auto with_front_46_70 =
         ip_filter::filter_if(addresses, [](const auto &addr) {
-
-          return addr[0] == OCTET_46 && addr[1] == OCTET_70;
+          auto bytes = addr.to_bytes();
+          return bytes[0] == OCTET_46 && bytes[1] == OCTET_70;
         });
     utils::transform_print(std::cout, with_front_46_70,
                            ip_filter::address::to_string);
@@ -31,8 +31,9 @@ int main(int /*argc*/, char * /*argv*/[]) {
 
   {
     auto with_any_46 = ip_filter::filter_if(addresses, [](const auto &addr) {
-      return addr[0] == OCTET_46 || addr[1] == OCTET_46 ||
-             addr[2] == OCTET_46 || addr[3] == OCTET_46;
+      auto bytes = addr.to_bytes();
+      return std::any_of(bytes.begin(), bytes.end(),
+                         [](const auto &e) { return e == OCTET_46; });
     });
     utils::transform_print(std::cout, with_any_46,
                            ip_filter::address::to_string);
