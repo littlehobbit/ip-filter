@@ -1,36 +1,30 @@
 cmake_minimum_required(VERSION 3.15)
 
-set(VERSION "0.0.0" CACHE STRING "Project patch version")
-project(ip_filter VERSION ${VERSION})
+set(VERSION "0.0.0" CACHE STRING "Project version")
+project(ip_filter VERSION ${VERSION} LANGUAGES CXX)
 
 option(BUILD_TESTS OFF)
 option(BUILD_PACKAGE OFF)
+option(RUN_CLANG_TIDY OFF)
 
-add_library(
-  ${PROJECT_NAME}_lib STATIC
-  src/dummy.cpp
-)
+add_library(${PROJECT_NAME}_lib INTERFACE)
 
 target_include_directories(
-  ${PROJECT_NAME}_lib PUBLIC 
+  ${PROJECT_NAME}_lib INTERFACE 
   ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
 target_compile_options(
-  ${PROJECT_NAME}_lib PRIVATE  -Wall -Wpedantic -Werror
-)
-
-set_target_properties(${PROJECT_NAME}_lib PROPERTIES
-    CXX_STANDARD 17
-    CXX_STANDARD_REQUIRED YES
-    CXX_EXTENSIONS NO
+  ${PROJECT_NAME}_lib INTERFACE -Wall -Wpedantic -Werror
 )
 
 add_executable(${PROJECT_NAME} src/main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_NAME}_lib)
 target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wpedantic -Werror)
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
+set_target_properties(
+  ${PROJECT_NAME} ${PROJECT_NAME}_lib 
+  PROPERTIES
     CXX_STANDARD 17
     CXX_STANDARD_REQUIRED YES
     CXX_EXTENSIONS NO
@@ -51,4 +45,10 @@ if (${BUILD_PACKAGE})
   set(CPACK_PACKAGE_VERSION_PATCH "${PROJECT_VERSION_PATCH}")
   set(CPACK_PACKAGE_CONTACT gataullinruslandev@gmain.com)
   include(CPack)
+endif()
+
+if (${RUN_CLANG_TIDY})
+  include(cmake/clang-tidy.cmake)
+  setup_target_for_clang_tidy(${PROJECT_NAME} PUBLIC)
+  setup_target_for_clang_tidy(${PROJECT_NAME}_lib INTERFACE)
 endif()

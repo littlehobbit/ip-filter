@@ -15,7 +15,8 @@ using address_list = std::vector<address_t>;
 
 namespace address {
 
-inline auto from_string(std::string address) noexcept -> ip_filter::address_t {
+inline auto from_string(const std::string &address) noexcept
+    -> ip_filter::address_t {
   auto dot = address.find('.');
   uint8_t first_octet = std::stoul(address.substr(0, dot));
   auto second_dot = address.find('.', dot + 1);
@@ -28,14 +29,14 @@ inline auto from_string(std::string address) noexcept -> ip_filter::address_t {
 
 inline auto to_string(const address_t &address) noexcept -> std::string {
   std::ostringstream buf{};
-  buf << static_cast<int>(address[0]) << '.' //
-      << static_cast<int>(address[1]) << '.' //
-      << static_cast<int>(address[2]) << '.' //
+  buf << static_cast<int>(address[0]) << '.'  //
+      << static_cast<int>(address[1]) << '.'  //
+      << static_cast<int>(address[2]) << '.'  //
       << static_cast<int>(address[3]);
   return buf.str();
 }
 
-} // namespace address
+}  // namespace address
 
 const auto less = [](const address_t &lhs, const address_t &rhs) -> bool {
   return lhs < rhs;
@@ -58,6 +59,6 @@ auto filter_if(const Container &container, UnaryPredicate &&pred) -> Container {
   return result;
 }
 
-} // namespace ip_filter
+}  // namespace ip_filter
 
-#endif // __IP_FILTER_H_INIGFE8BSKGV__
+#endif  // __IP_FILTER_H_INIGFE8BSKGV__
