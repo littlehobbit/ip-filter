@@ -16,8 +16,7 @@ jobs:
         fetch-depth: 0
 
     - name: Install dependencies
-      run: sudo apt update && sudo apt install -y cmake g++ make libgtest-dev libgmock-dev \
-              git clang-tidy libasio-dev
+      run: sudo apt update && sudo apt install -y cmake g++ make libgtest-dev libgmock-dev git clang-tidy libasio-dev
 
     - name: Get Version
       id: get_version
@@ -31,7 +30,7 @@ jobs:
       env:  
         VERSION: ${{steps.get_version.outputs.version}}
       run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} \
-          -DBUILD_TESTS=ON -DBUILD_PACKAGE=ON -DVERSION=${{env.VERSION}} -DRUN_CLANG_TIDY=ON
+            -DBUILD_TESTS=ON -DBUILD_PACKAGE=ON -DVERSION=${{env.VERSION}} -DRUN_CLANG_TIDY=O N
 
     - name: Build
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} --parallel
